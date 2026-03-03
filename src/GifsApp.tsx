@@ -3,9 +3,17 @@ import { mockGifs } from './mock-data/gifs.mock';
 import { PreviousSearches } from "./gifs/components/PreviousSearches";
 import { CustomHeader } from "./shared/components/CustomHeader";
 import { SearchBar } from "./shared/components/SearchBar";
+import { useState } from "react";
 
 
 export const GifsApp = () => {
+
+  const [previousTerms, setPreviousTerms] = useState(['dragon ball']);
+
+  const handleTermClicked = (term: string) => {
+    console.log(term)
+  }
+
   return (
     <>
       { /* Header */ }
@@ -18,7 +26,7 @@ export const GifsApp = () => {
 
       {/* Previous search */}
 
-      <PreviousSearches searches={['Goku', 'Dragon Ball']}/>
+      <PreviousSearches searches={previousTerms} onLabelClicked = { handleTermClicked } />
 
       { /* Gifs */ }
 
