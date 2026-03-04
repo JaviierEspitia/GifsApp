@@ -9,7 +9,7 @@ import { getGifsByQuery } from "./gifs/actions/get-gifs-by-query.action";
 
 export const GifsApp = () => {
 
-  const [previousTerms, setPreviousTerms] = useState(['dragon ball']);
+  const [previousTerms, setPreviousTerms] = useState<string[]>([]);
 
   const [previousGifs, setPreviousGifs] = useState(mockGifs)
 
