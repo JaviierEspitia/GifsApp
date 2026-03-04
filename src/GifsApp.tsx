@@ -4,17 +4,20 @@ import { PreviousSearches } from "./gifs/components/PreviousSearches";
 import { CustomHeader } from "./shared/components/CustomHeader";
 import { SearchBar } from "./shared/components/SearchBar";
 import { useState } from "react";
+import { getGifsByQuery } from "./gifs/actions/get-gifs-by-query.action";
 
 
 export const GifsApp = () => {
 
   const [previousTerms, setPreviousTerms] = useState(['dragon ball']);
 
+  const [previousGifs, setPreviousGifs] = useState(mockGifs)
+
   const handleTermClicked = (term: string) => {
     console.log(term)
   }
 
-  const handleSearch = ( query: string ) => {
+  const handleSearch = async ( query: string ) => {
     const trimmedQuery = query.trim();
     
     if(trimmedQuery.length == 0) return;
@@ -26,6 +29,10 @@ export const GifsApp = () => {
     if(previousTerms.length > 7) previousTerms.pop();
     
     setPreviousTerms([text, ...previousTerms]);
+
+    const gifs = await getGifsByQuery(query)
+
+    setPreviousGifs(gifs)
 
   }
 
@@ -45,7 +52,7 @@ export const GifsApp = () => {
 
       { /* Gifs */ }
 
-      <GifList gifs={mockGifs} />
+      <GifList gifs={previousGifs} />
       
     </>
   )
