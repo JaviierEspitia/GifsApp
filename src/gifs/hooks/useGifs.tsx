@@ -1,9 +1,9 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { getGifsByQuery } from "../actions/get-gifs-by-query.action";
 import type { Gif } from "../interfaces/gif.interface";
 
-
-const gifsCache: Record<string, Gif[]> = {};
+// key string and value Gif[]
+// const gifsCache: Record<string, Gif[]> = {};
 
 
 export const useGifs = () => {
@@ -13,11 +13,13 @@ export const useGifs = () => {
   //const [previousGifs, setPreviousGifs] = useState(mockGifs)
   const [Gifs, setGifs] = useState<Gif[]>([])
 
-  // key string and value Gif[]
+  // no causa re-render y mantiene el estado en re-renders
+  const gifsCache = useRef<Record<string, Gif[]>>({});
   
   const handleTermClicked = async(term: string) => {
-    if( gifsCache[term] ){
-      setGifs(gifsCache[term])
+
+    if( gifsCache.current[term] ){
+      setGifs(gifsCache.current[term])
       return;
     }
 
@@ -42,7 +44,7 @@ export const useGifs = () => {
 
     setGifs(gifs)
 
-    gifsCache[query] = gifs;
+    gifsCache.current[query] = gifs;
 
   }
   
